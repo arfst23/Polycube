@@ -31,24 +31,24 @@ equivalence class of the monocube.
 Computational Results
 ---------------------
 
-| n  | A000162     | A038119     | Intel Core i7-9700K | Intel Xenon Gold 5118 |
-| -- | ----------- | ----------- | ------------------- | --------------------- |
-| 01 |           1 |           1 |                     |                       |
-| 02 |           1 |           1 |                     |                       |
-| 03 |           2 |           2 |                     |                       |
-| 04 |           8 |           7 |                     |                       |
-| 05 |          29 |          23 |                     |                       |
-| 06 |         166 |         112 |                     |                       |
-| 07 |        1023 |         607 |                     |                       |
-| 08 |        6922 |        3811 |                     |                       |
-| 09 |       48311 |       25413 |                0.1s |                 10.0s |
-| 10 |      346543 |      178083 |                1.0s |                       |
-| 11 |     2522522 |     1279537 |                8.5s |                       |
-| 12 |    18598427 |     9371094 |               74.0s |                       |
-| 13 |   138462649 |    69513546 |              659.2s |                       |
-| 14 |  1039496297 |   520878101 |                     |                       |
-| 15 |  7859514470 |  3934285874 |                     |                       |
-| 16 | 59795121480 | 29915913663 |                     |                       |
+| n  | A000162     | A038119     | Intel Core i7-9700K |
+| -- | ----------- | ----------- | ------------------- |
+| 01 |           1 |           1 |                     |
+| 02 |           1 |           1 |                     |
+| 03 |           2 |           2 |                     |
+| 04 |           8 |           7 |                     |
+| 05 |          29 |          23 |                     |
+| 06 |         166 |         112 |                     |
+| 07 |        1023 |         607 |                     |
+| 08 |        6922 |        3811 |                     |
+| 09 |       48311 |       25413 |                0.1s |
+| 10 |      346543 |      178083 |                0.6s |
+| 11 |     2522522 |     1279537 |                5.5s |
+| 12 |    18598427 |     9371094 |               49.7s |
+| 13 |   138462649 |    69513546 |              449.9s |
+| 14 |  1039496297 |   520878101 |                     |
+| 15 |  7859514470 |  3934285874 |                     |
+| 16 | 59795121480 | 29915913663 |                     |
 
 File Format
 -----------
@@ -57,25 +57,19 @@ File Format
 * the coordinates of the cubes given ar triplet of letters
 * the lexiograhic smallest representation is chosen
 
-For example the monocube is written as:
+For example the monocube is written as
 ```
 AAA
 ```
 
-The smallest representation for the dicube is:
+The smallest representation for the dicube is
 ```
 AAA AAB
 ```
 
-Starting with *n*=4 the set of polycubes contain instances with chiral symmetry,
-i.e.  the number of equivalence classes considering rotations and reflections is
-smaller than taking only rotations into account.
+Starting with *n*=4 
 
-Lines ending in a `=` represent an equivalence class wrt.  rotations only.  I.e
-A000162 gives the number of lines, A038119 is the number of lines not ending in
-`=`.
-
-The tetracubes show up as:
+For example, 6 tetracubes have mirror symmetry and one is chiral, giving a count of 7 or 8 tetracubes respectively
 ```
 AAA AAB AAC AAD
 AAA AAB AAC ABA

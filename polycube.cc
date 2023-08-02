@@ -70,56 +70,56 @@ void eval(std::unordered_set<std::string> &store, int n, const char *str)
   // fill bits
   uint8_t bits[n + 2][n + 2][n + 2];
   bzero(bits, (n + 2) * (n + 2) * (n + 2));
-  int xmax = 0;
-  int ymax = 0;
-  int zmax = 0;
+  int size_x = 0;
+  int size_y = 0;
+  int size_z = 0;
   for (int i = 0; i < n; i++)
   {
     int x = str[4 * i + 0] - 'A' + 1;
-    if (x > xmax)
-      xmax = x;
+    if (x > size_x)
+      size_x = x;
     int y = str[4 * i + 1] - 'A' + 1;
-    if (y > ymax)
-      ymax = y;
+    if (y > size_y)
+      size_y = y;
     int z = str[4 * i + 2] - 'A' + 1;
-    if (z > zmax)
-      zmax = z;
+    if (z > size_z)
+      size_z = z;
     bits[x][y][z] = 1;
   }
 
   // loop every extension
-  for (int x = 0; x <= xmax + 1; x++)
-    for (int y = 0; y <= ymax + 1; y++)
-      for (int z = 0; z <= zmax + 1; z++)
+  for (int x = 0; x <= size_x + 1; x++)
+    for (int y = 0; y <= size_y + 1; y++)
+      for (int z = 0; z <= size_z + 1; z++)
 	if (!bits[x][y][z]
 	  && ((x > 0 && bits[x - 1][y][z])
-	    || (x <= xmax && bits[x + 1][y][z])
+	    || (x <= size_x && bits[x + 1][y][z])
 	    || (y > 0 && bits[x][y - 1][z])
-	    || (y <= ymax && bits[x][y + 1][z])
+	    || (y <= size_y && bits[x][y + 1][z])
 	    || (z > 0 && bits[x][y][z - 1])
-	    || (z <= zmax && bits[x][y][z + 1])))
+	    || (z <= size_z && bits[x][y][z + 1])))
 	{
 	  bits[x][y][z] = 1;
 
 	  // code extension in all symeries
-	  int minx = x < 1 ? 0 : 1;
-	  int maxx = x > xmax ? x : xmax;
-	  int miny = y < 1 ? 0 : 1;
-	  int maxy = y > ymax ? y : ymax;
-	  int minz = z < 1 ? 0 : 1;
-	  int maxz = z > zmax ? z : zmax;
+	  int min_x = x < 1 ? 0 : 1;
+	  int max_x = x > size_x ? x : size_x;
+	  int min_y = y < 1 ? 0 : 1;
+	  int max_y = y > size_y ? y : size_y;
+	  int min_z = z < 1 ? 0 : 1;
+	  int max_z = z > size_z ? z : size_z;
 	  
 //******************************************************************************
 
 	  uint32_t code[PERMS][n + 1];
 	  int i = 0;
-	  for (int x = minx; x <= maxx; x++)
-	    for (int y = miny; y <= maxy; y++)
-	      for (int z = minz; z <= maxz; z++)
+	  for (int x = min_x; x <= max_x; x++)
+	    for (int y = min_y; y <= max_y; y++)
+	      for (int z = min_z; z <= max_z; z++)
 		if (bits[x][y][z])
 		{
 		  //               0 -> x    1 -> -x   2 -> y    3 -> -y   4 -> z    5 -> -z
-		  int coord[6] = { x - minx, maxx - x, y - miny, maxy - y, z - minz, maxz - z };
+		  int coord[6] = { x - min_x, max_x - x, y - min_y, max_y - y, z - min_z, max_z - z };
 
 		  for (int p = 0; p < PERMS; p++)
 		  {
@@ -131,15 +131,19 @@ void eval(std::unordered_set<std::string> &store, int n, const char *str)
 		  i++;
 		}
 
-	  for (int p = 0; p < PERMS; p++)
-	    std::sort(&code[p][0], &code[p][n + 1]);
-
   //******************************************************************************
 
 	  std::string smallestRotation("Z");
 	  std::string smallestReflection("Z");
+	  int size[6] = { max_x - min_x, max_x - min_x,
+	    max_y - min_y, max_y - min_y, max_z - min_z, max_z - min_z };
 	  for (int p = 0; p < PERMS; p++)
 	  {
+	    if (size[perm[p][0]] > size[perm[p][1]] || size[perm[p][1]] > size[perm[p][2]])
+	      continue;
+
+	    std::sort(&code[p][0], &code[p][n + 1]);
+
 	    std::string key(4 * i - 1, ' ');
 	    for (int i = 0; i < n + 1; i++)
 	    {
